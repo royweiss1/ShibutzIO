@@ -1,17 +1,44 @@
-# This is a sample Python script.
+import matplotlib.pyplot as plt
 
-# Press ⌃R to execute it or replace it with your code.
-# Press Double ⇧ to search everywhere for classes, files, tool windows, actions, and settings.
+def plot_shape_outline(outline):
+    # Extract x and y coordinates from the outline
+    x_coords = [point[0] for point in outline]
+    y_coords = [point[1] for point in outline]
 
+    # Plot the shape outline
+    plt.plot(x_coords, y_coords, 'b-')
+    plt.scatter(x_coords, y_coords, color='r')
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press ⌘F8 to toggle the breakpoint.
+    # Set the axis labels and title
+    plt.xlabel('X')
+    plt.ylabel('Y')
+    plt.title('Shape Outline')
 
+    # Show the plot
+    plt.show()
+from scipy.spatial import ConvexHull
 
+def get_shape_outline(positions):
+    # Compute the Convex Hull
+    hull = ConvexHull(positions)
 
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
+    # Get the vertices and edges of the Convex Hull
+    vertices = hull.points[hull.vertices]
+    edges = []
+    for simplex in hull.simplices:
+        edges.extend([(hull.points[simplex[i]], hull.points[simplex[(i+1) % len(simplex)]]) for i in range(len(simplex))])
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+    # Create the shape outline using the vertices and edges
+    outline = []
+    for vertex in vertices:
+        outline.append(vertex)
+    for edge in edges:
+        outline.extend([point for point in edge])
+
+    return outline
+
+# Example usage
+positions = [(1, 1), (3, 5), (6, 3), (8, 7), (4, 9), (2, 6)]
+outline = get_shape_outline(positions)
+plot_shape_outline(outline)
+print(outline)
