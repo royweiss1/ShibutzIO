@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+   <title>Flask App - Index</title>
+   <style>
+
+       body {
+           background-color: white;
+           margin: 0;
+           overflow: hidden;
+       }
+
+       .title {
+           position: fixed;
+           top: 50%;
+           left: 50%;
+           transform: translate(-50%, -50%);
+           font-size: 36px;
+           font-weight: bold;
+           z-index: 1;
+       }
+
+       .eighty-five {
+           position: absolute;
+           color: purple;
+           font-size: 20px;
+       }
+
+       .snake-segment {
+           position: absolute;
+           width: 30px;
+           height: 30px;
+           background-color: green;
+           transition: transform 0.2s ease;
+       }
+
+       .snake-face {
+           position: absolute;
+           width: 30px;
+           height: 30px;
+           background-color: yellow;
+           transition: transform 0.2s ease;
+       }
+       .button {
+  padding: 15px 25px;
+  font-size: 24px;
+  text-align: center;
+  cursor: pointer;
+  outline: none;
+  color: #fff;
+  background-color: mediumpurple;
+  border: none;
+  border-radius: 15px;
+  box-shadow: 0 9px #999;
+}
+
+.button:hover {background-color: purple}
+
+.button:active {
+  background-color: rebeccapurple;
+  box-shadow: 0 5px #666;
+  transform: translateY(4px);
+}
+
+   </style>
+</head>
+<body>
+   <div class="title">
+     psagot skillz
+     <br>
+     <br>
+       <a href="/upload">
+     <button class="button" >upload files</button>
+    </a>
+
+
+   </div>
+   <script>
+       var eightyFives = [];
+
+       function createEightyFive() {
+           var eightyFive = document.createElement('div');
+           eightyFive.className = 'eighty-five';
+           eightyFive.innerText = '85';
+           eightyFive.style.left = Math.floor(Math.random() * (window.innerWidth - 50)) + 'px';
+           eightyFive.style.top = Math.floor(Math.random() * (window.innerHeight - 50)) + 'px';
+           eightyFive.dx = (Math.random() - 0.5) * 10;
+           eightyFive.dy = (Math.random() - 0.5) * 10;
+           document.body.appendChild(eightyFive);
+           eightyFives.push(eightyFive);
+       }
+
+       function moveEightyFives() {
+           for (var i = 0; i < eightyFives.length; i++) {
+               var eightyFive = eightyFives[i];
+               var x = parseFloat(eightyFive.style.left);
+               var y = parseFloat(eightyFive.style.top);
+
+               x += eightyFive.dx;
+               y += eightyFive.dy;
+
+               if (x < 0 || x > window.innerWidth - 50) {
+                   eightyFive.dx = -eightyFive.dx;
+               }
+
+               if (y < 0 || y > window.innerHeight - 50) {
+                   eightyFive.dy = -eightyFive.dy;
+               }
+
+               eightyFive.style.left = x + 'px';
+               eightyFive.style.top = y + 'px';
+
+               checkTitleCollision(eightyFive);
+           }
+
+           requestAnimationFrame(moveEightyFives);
+       }
+
+       function checkTitleCollision(eightyFive) {
+           var title = document.querySelector('.title');
+           var titleRect = title.getBoundingClientRect();
+           var eightyFiveRect = eightyFive.getBoundingClientRect();
+
+           if (
+               eightyFiveRect.left < titleRect.right &&
+               eightyFiveRect.right > titleRect.left &&
+               eightyFiveRect.top < titleRect.bottom &&
+               eightyFiveRect.bottom > titleRect.top
+           ) {
+               eightyFive.style.visibility = 'hidden';
+           } else {
+               eightyFive.style.visibility = 'visible';
+           }
+       }
+
+       for (var i = 0; i < 85; i++) {
+           createEightyFive();
+       }
+
+       moveEightyFives();
+
+
+   </script>
+</body>
+</html>

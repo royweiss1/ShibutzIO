@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Upload Files</title>
+    <style>
+        body {
+            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333333;
+            margin-bottom: 30px;
+        }
+        .file-input {
+            display: block;
+            margin-bottom: 20px;
+        }
+        .upload-button {
+            background-color: purple;
+            color: #ffffff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .upload-button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Upload Files</h1>
+        <form method="POST" enctype="multipart/form-data">
+            <input class="file-input" type="file" name="file" accept=".txt,.py">
+            <input class="file-input" type="file" name="file" accept=".txt,.py">
+            <input class="file-input" type="file" name="file" accept=".txt,.py">
+            <input class="file-input" type="file" name="file" accept=".txt,.py">
+            <br><br>
+            <input class="upload-button" type="submit" value="Upload">
+        </form>
+    </div>
+</body>
+</html>
