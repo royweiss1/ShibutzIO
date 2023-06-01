@@ -35,8 +35,11 @@ class GameRunner:
 
         self.update_positions(board, players_NPIA)
 
-        # add new keys
-        
+        self.add_new_keys(board)
+
+
+
+
 
     # converts non legal moves to legal moves
     def check_legal_moves(self, board, players_moves):
@@ -280,7 +283,7 @@ class GameRunner:
             player.last_move = last_move
 
 
-    def add_new_keys(board):
+    def add_new_keys(self, board):
         r=random.randint(1,board.Size*board.Size)
         for player in board.players:
             if len(player.area)>=r:
