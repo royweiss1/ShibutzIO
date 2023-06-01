@@ -5,7 +5,7 @@ HEAD = 1
 TAIL = 2
 FULL = 3
 KEY = 4
-NATURAL = 0
+NATURAL = 5
 
 class ChangeTurn:
     def __init__(self, board, turnIndex, playersNewPosition, score, newCapturedArea=None, newHalfCapturedArea=None, newKilled=None, HalfToNatural=None):

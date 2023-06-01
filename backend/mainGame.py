@@ -15,7 +15,7 @@ def TurnEncoderFunction(turn):
 def main(playerStrategies):
     # initialize game
     GameExecuter.makeFiles(playerStrategies) # list of strings
-    board = Board.Board(10, 4)
+    board = Board.Board(30, 4)
     g=game_runner.GameRunner()
     listofChangeTurn = []
 
@@ -23,7 +23,7 @@ def main(playerStrategies):
     for i in range(1000):
         actionsThisTurn=GameExecuter.run(board) #list of actions
         # do the update stuff -> update board
-        ChangeTurn = g.update(board, actionsThisTurn)
+        ChangeTurn = g.update(board, actionsThisTurn, i)
         if (len(board.players)) == 1:
             break
         listofChangeTurn.append(ChangeTurn)

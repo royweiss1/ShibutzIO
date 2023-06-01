@@ -1,6 +1,10 @@
+import json
+
+import flask
 from flask import Flask, render_template, request
 
 import backend.mainGame
+
 
 app = Flask(__name__)
 
@@ -44,7 +48,17 @@ def upload_files():
 
 @app.route('/simulate_json')
 def simulateJson():
-    return 2
+    # some JSON:
+    file_path = "data.txt"
+
+    # Open the file in read mode
+    with open(file_path, 'r') as file:
+        # Read the contents of the file
+        file_contents = file.read()
+    # parse x:
+    response = flask.jsonify(file_contents)
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
 
 
 if __name__ == '__main__':
