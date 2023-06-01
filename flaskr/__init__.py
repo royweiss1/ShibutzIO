@@ -1,8 +1,10 @@
 import json
 
+import flask
 from flask import Flask, render_template, request
 
 import backend.mainGame
+
 
 app = Flask(__name__)
 
@@ -51,7 +53,9 @@ def simulateJson():
 
     # parse x:
     y = json.loads(x)
-    return y
+    response = flask.jsonify(x)
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
 
 
 if __name__ == '__main__':

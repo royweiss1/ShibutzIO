@@ -21,7 +21,9 @@ slider.addEventListener("input", function() {
 var input;
 
 async function getJson() {
-    const response = await fetch('http://127.0.0.1:5500/simulate_json').then(response => response.json()).then(data => {
+    const response = await fetch('http://127.0.0.1:5000/simulate_json').then(response => response.json()).then(data => {
+        console.log(data);
+        data = JSON.parse(data);
         console.log(data);
         input = data;
     });
@@ -113,6 +115,7 @@ async function update() {
 
 
     for(var turn in input){
+        console.log(input[turn]);
         for (var i in input[turn].Score){
             // change text of "blueScore" in html to the score of player 1
             document.getElementById("blueScore").textContent = "Blue: " +   input[turn].Score[0];
