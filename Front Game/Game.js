@@ -8,6 +8,16 @@ slider.addEventListener("input", function() {
     document.getElementById("sliderValue").textContent = "Speed: " + value;
   });
 
+
+var input = [{
+    "turnIndex": 1,
+    "Score": {"0": 1, "1": 2, "2": 3, "3": 4},
+    "SquareChanges": [{"xPosition": 1, "yPosition": 1, "playerIndex": 0, "Status": 3}, {"xPosition": 2, "yPosition": 2, "playerIndex": 0, "Status": 3}, {"xPosition": 3, "yPosition": 3, "playerIndex": 1, "Status": 3}, {"xPosition": 4, "yPosition": 4, "playerIndex": 1, "Status": 3}, {"xPosition": 5, "yPosition": 5, "playerIndex": 0, "Status": 2}, {"xPosition": 6, "yPosition": 6, "playerIndex": 0, "Status": 2}, {"xPosition": 7, "yPosition": 7, "playerIndex": 1, "Status": 2}, {"xPosition": 8, "yPosition": 8, "playerIndex": 1, "Status": 2}, {"xPosition": 1, "yPosition": 1, "playerIndex": 0, "Status": 1}, {"xPosition": 2, "yPosition": 2, "playerIndex": 1, "Status": 1}, {"xPosition": 3, "yPosition": 3, "playerIndex": 2, "Status": 1}, {"xPosition": 4, "yPosition": 4, "playerIndex": 3, "Status": 1}]
+},
+    {"turnIndex": 2, "Score": {"0": 1, "1": 2, "2": 3, "3": 4}, "SquareChanges": [{"xPosition": 1, "yPosition": 1, "playerIndex": 0, "Status": 3}, {"xPosition": 2, "yPosition": 2, "playerIndex": 0, "Status": 3}, {"xPosition": 3, "yPosition": 3, "playerIndex": 1, "Status": 3}, {"xPosition": 4, "yPosition": 4, "playerIndex": 1, "Status": 3}, {"xPosition": 5, "yPosition": 5, "playerIndex": 0, "Status": 2}, {"xPosition": 6, "yPosition": 6, "playerIndex": 0, "Status": 2}, {"xPosition": 7, "yPosition": 7, "playerIndex": 1, "Status": 2}, {"xPosition": 8, "yPosition": 8, "playerIndex": 1, "Status": 2}, {"xPosition": 1, "yPosition": 1, "playerIndex": 0, "Status": 1}, {"xPosition": 2, "yPosition": 2, "playerIndex": 1, "Status": 1}, {"xPosition": 3, "yPosition": 3, "playerIndex": 2, "Status": 1}, {"xPosition": 4, "yPosition": 4, "playerIndex": 3, "Status": 1}]
+    }
+]
+
 slider.value = 0;
 const jsonExample = {
     "1": {
@@ -79,86 +89,154 @@ window.onload = async function() {
     context = board.getContext("2d");
     board.width = blockSize * rows;
     board.height = blockSize * cols;
-    
     InitBoard();
-    // wait for currentIndex to be 3
     while (currentIndex <= 3) {
         await sleep(100);
     }
-    // var img = new Image();
-    // img.src = "Art/mario.png";
-    // img.onload = function() {
-    //     context.drawImage(img, 0, 0, 100, 100);
-    // }
     update();
 }
 
 
 
 async function update() {
-    const turns = JSON.parse(JSON.stringify(jsonExample));
-    // for each turn
-    for (var turn in turns) {
-        for(var change in turns[turn]){
-            switch(turns[turn][change])
-            {
-                case "(1,1)":
+
+
+    for(var turn in input){
+        for (var i in input[turn].Score){
+            // change text of "blueScore" in html to the score of player 1
+            document.getElementById("blueScore").textContent = "Blue: " +   input[turn].Score[0];
+            document.getElementById("redScore").textContent = "Red: " +   input[turn].Score[1];
+            document.getElementById("blackScore").textContent = "Black: " +   input[turn].Score[2];
+            document.getElementById("whiteScore").textContent = "White: " +   input[turn].Score[3];
+        }
+        for (var change in input[turn].SquareChanges){
+            var x = input[turn].SquareChanges[change].xPosition;
+            var y = input[turn].SquareChanges[change].yPosition;
+            var playerIndex = input[turn].SquareChanges[change].playerIndex;
+            var status = input[turn].SquareChanges[change].Status;
+            console.log(x,y,playerIndex,status);
+            switch((playerIndex,status)){
+                case(0,0):
+                    src = "Art/DefaultTile.png";
+                case (1,1):
                     src = "Art/BlueHead.png";
                     break;
-                case "(1,2)":
+                case (1,2):
                     src = "Art/BlueTail.png";
                     break;
-                case "(1,3)":
+                case (1,3):
                     src = "Art/BlueTile.png";
                     break;
-                case "(1,4)":
+                case (1,4):
                     src = "Art/BlueKey.png";
                     break;
-                case "(2,1)": // same as above but red
-                    src = "Art/RedHead.png";
+                case (2,1): // same as above but red
+                    src = "Art/RedHead.png";    
                     break;
-                case "(2,2)":
+                case (2,2):
                     src = "Art/RedTail.png";
                     break;
-                case "(2,3)":
+                case (2,3):
                     src = "Art/RedTile.png";
                     break;
-                case "(2,4)":
+                case (2,4):
                     src = "Art/RedKey.png";
                     break;
-                case "(3,1)": // same as above but black
+                case (3,1): // same as above but black
                     src = "Art/BlackHead.png";
                     break;
-                case "(3,2)":   
+                case (3,2):
                     src = "Art/BlackTail.png";
                     break;
-                case "(3,3)":
+                case (3,3):
                     src = "Art/BlackTile.png";
                     break;
-                case "(3,4)":
+                case (3,4):
                     src = "Art/BlackKey.png";
                     break;
-                case "(4,1)": // same as above but white
+                case (4,1): // same as above but white
                     src = "Art/WhiteHead.png";
                     break;
-                case "(4,2)":
+                case (4,2):
                     src = "Art/WhiteTail.png";
                     break;
-                case "(4,3)":
+                case (4,3):
                     src = "Art/WhiteTile.png";
                     break;
-                case "(4,4)":
+                case (4,4):
                     src = "Art/WhiteKey.png";
                     break;
-                default:
             }
+            console.log(src);
             change = change.substring(1, change.length-1).split(",");
             change[0] = parseInt(change[0]);
             change[1] = parseInt(change[1]);
-            drawTile(src, change[0]*blockSize, change[1]*blockSize);
+            drawTile(src, x*blockSize, y*blockSize);
+         }
+            await sleep(1500-slider.value);
         }
-        await sleep(1500-slider.value);
-    }
+    // const turns = JSON.parse(JSON.stringify(jsonExample));
+    // for (var turn in turns) {
+    //     for(var change in turns[turn]){
+    //         switch(turns[turn][change])
+    //         {
+    //             case "(1,1)":
+    //                 src = "Art/BlueHead.png";
+    //                 break;
+    //             case "(1,2)":
+    //                 src = "Art/BlueTail.png";
+    //                 break;
+    //             case "(1,3)":
+    //                 src = "Art/BlueTile.png";
+    //                 break;
+    //             case "(1,4)":
+    //                 src = "Art/BlueKey.png";
+    //                 break;
+    //             case "(2,1)": // same as above but red
+    //                 src = "Art/RedHead.png";
+    //                 break;
+    //             case "(2,2)":
+    //                 src = "Art/RedTail.png";
+    //                 break;
+    //             case "(2,3)":
+    //                 src = "Art/RedTile.png";
+    //                 break;
+    //             case "(2,4)":
+    //                 src = "Art/RedKey.png";
+    //                 break;
+    //             case "(3,1)": // same as above but black
+    //                 src = "Art/BlackHead.png";
+    //                 break;
+    //             case "(3,2)":   
+    //                 src = "Art/BlackTail.png";
+    //                 break;
+    //             case "(3,3)":
+    //                 src = "Art/BlackTile.png";
+    //                 break;
+    //             case "(3,4)":
+    //                 src = "Art/BlackKey.png";
+    //                 break;
+    //             case "(4,1)": // same as above but white
+    //                 src = "Art/WhiteHead.png";
+    //                 break;
+    //             case "(4,2)":
+    //                 src = "Art/WhiteTail.png";
+    //                 break;
+    //             case "(4,3)":
+    //                 src = "Art/WhiteTile.png";
+    //                 break;
+    //             case "(4,4)":
+    //                 src = "Art/WhiteKey.png";
+    //                 break;
+    //             default:
+    //         }
+    //         change = change.substring(1, change.length-1).split(",");
+    //         change[0] = parseInt(change[0]);
+    //         change[1] = parseInt(change[1]);
+    //         drawTile(src, change[0]*blockSize, change[1]*blockSize);
+    //     }
+    //     await sleep(1500-slider.value);
+    // }
     
 }
 
