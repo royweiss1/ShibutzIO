@@ -20,7 +20,7 @@ class GameRunner:
 
     # players_moves: only for living players
     # todo: return board
-    def update(self, board, players_moves):
+    def update(self, board, players_moves, turn_index):
         players=board.players
         oldCap={}
         for i in range(len(players)):
@@ -28,8 +28,8 @@ class GameRunner:
         if len(players_moves) != len(board.players):
             raise Exception  # this should not happen
 
-        self.turn_change = ChangeTurn(board, self.turn_index, None, None)  # changing during the rest of the function
-        self.turn_change += 1
+        #self.turn_change = ChangeTurn(board, self.turn_index, None, None)  # changing during the rest of the function
+        #self.turn_change += 1
 
         self.check_legal_moves(board, players_moves) # converting illegal moves to last moves
         
@@ -59,10 +59,10 @@ class GameRunner:
             newHalf[i]=players[i].halfCaptured
             if not players[i].is_alive:
                 newKilled.append(i)
-            diff=list(oldCap[i] - newCaptured[i])
+            diff=list(set(oldCap[i]) - set(newCaptured[i]))
             if len(diff)>0:
                 halfToNatural[i]=diff
-        return ChangeTurn(board,self.turn_change,[player.position for player in board.players],score,newCaptured,newHalf,newKilled,)
+        return ChangeTurn(board,turn_index,[player.position for player in board.players],score,newCaptured,newHalf,newKilled, halfToNatural)
 
 
 
@@ -117,7 +117,7 @@ class GameRunner:
                 player.keys = player.keys + 1
                 player.keysPositions.remove(new_pos)
 
-        self.turn_change.Score = {player_index: board.players[player_index].keys for player_index in range(len(players_NPIA))}
+        #self.turn_change.Score = {player_index: board.players[player_index].keys for player_index in range(len(players_NPIA))}
 
     # todo: nice to have, two players may close the same area in the same time, currently this is
     # todo: arbitrary, but maybe later implement that the one that closes the bigger area takes it
@@ -315,7 +315,7 @@ class GameRunner:
 
 
     def add_new_keys(self, board):
-        r=random.randint(1,board.Size*board.Size)
+        r=random.randint(1,board.SIZE*board.SIZE)
         for player in board.players:
             if len(player.area)>=r:
                 relevantBlocks=[]

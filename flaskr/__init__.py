@@ -49,11 +49,14 @@ def upload_files():
 @app.route('/simulate_json')
 def simulateJson():
     # some JSON:
-    x = '[{"turnIndex": 1, "Score": {"0": 1, "1": 2, "2": 3, "3": 4}, "SquareChanges": [{"xPosition": 1, "yPosition": 1, "playerIndex": 0, "Status": 3}, {"xPosition": 2, "yPosition": 2, "playerIndex": 0, "Status": 3}, {"xPosition": 3, "yPosition": 3, "playerIndex": 1, "Status": 3}, {"xPosition": 4, "yPosition": 4, "playerIndex": 1, "Status": 3}, {"xPosition": 5, "yPosition": 5, "playerIndex": 0, "Status": 2}, {"xPosition": 6, "yPosition": 6, "playerIndex": 0, "Status": 2}, {"xPosition": 7, "yPosition": 7, "playerIndex": 1, "Status": 2}, {"xPosition": 8, "yPosition": 8, "playerIndex": 1, "Status": 2}, {"xPosition": 1, "yPosition": 1, "playerIndex": 0, "Status": 1}, {"xPosition": 2, "yPosition": 2, "playerIndex": 1, "Status": 1}, {"xPosition": 3, "yPosition": 3, "playerIndex": 2, "Status": 1}, {"xPosition": 4, "yPosition": 4, "playerIndex": 3, "Status": 1}]}, {"turnIndex": 2, "Score": {"0": 1, "1": 2, "2": 3, "3": 4}, "SquareChanges": [{"xPosition": 1, "yPosition": 1, "playerIndex": 0, "Status": 3}, {"xPosition": 2, "yPosition": 2, "playerIndex": 0, "Status": 3}, {"xPosition": 3, "yPosition": 3, "playerIndex": 1, "Status": 3}, {"xPosition": 4, "yPosition": 4, "playerIndex": 1, "Status": 3}, {"xPosition": 5, "yPosition": 5, "playerIndex": 0, "Status": 2}, {"xPosition": 6, "yPosition": 6, "playerIndex": 0, "Status": 2}, {"xPosition": 7, "yPosition": 7, "playerIndex": 1, "Status": 2}, {"xPosition": 8, "yPosition": 8, "playerIndex": 1, "Status": 2}, {"xPosition": 1, "yPosition": 1, "playerIndex": 0, "Status": 1}, {"xPosition": 2, "yPosition": 2, "playerIndex": 1, "Status": 1}, {"xPosition": 3, "yPosition": 3, "playerIndex": 2, "Status": 1}, {"xPosition": 4, "yPosition": 4, "playerIndex": 3, "Status": 1}]}]'
+    file_path = "data.txt"
 
+    # Open the file in read mode
+    with open(file_path, 'r') as file:
+        # Read the contents of the file
+        file_contents = file.read()
     # parse x:
-    y = json.loads(x)
-    response = flask.jsonify(x)
+    response = flask.jsonify(file_contents)
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response
 
