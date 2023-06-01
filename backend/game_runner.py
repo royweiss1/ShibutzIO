@@ -33,7 +33,7 @@ class GameRunner:
 
         self.handle_kills(board, players_NPIA)
 
-        # change positions (and remaning fields)
+        self.update_positions(board, players_NPIA)
 
         # add new keys
         
@@ -93,6 +93,7 @@ class GameRunner:
     def collect_players_area(self, board, players_NPIA):
         for player_index in range(len(players_NPIA)):
             self.collect_player_area(board, player_index, players_NPIA)
+
 
     def collect_player_area(self, board, player_index, players_NPAI):
         player = board.players[player_index]
@@ -229,8 +230,24 @@ class GameRunner:
 
 
     def handle_kill_tuple(self, board, did_kill_index, got_killed_index):
-        pass
-        # todo: change num_players in board
+
+        did_kill = board.players[did_kill_index]
+        got_killed = board.players[got_killed_index]
+
+        if got_killed.is_alive:  # todo: improve by dealing with these in getting kills tuples
+            got_killed.is_alive = False
+
+            did_kill.area = did_kill.area + got_killed.area
+            did_kill.area = list(set(did_kill.area))  # to make sure
+
+            did_kill.halfCaptured = []
+
+            did_kill.keys = did_kill.keys - got_killed.keys
+
+            # now changing board:
+
+            board.players.remove(got_killed)
+            board.numOfPlayers = len(board.players)
 
 
     def handle_kills(self, board, players_NPIA):
@@ -238,9 +255,30 @@ class GameRunner:
             self.handle_kill_tuple(kill)
 
 
-    def update_positions(self):
-        pass
-        # todo: update last_position, position
+    def update_positions(self, board, players_NPAI):
+        for player_index in range(len(players_NPAI)):
+            player = board.players[player_index]
+
+            last_pos = player.position
+
+            player.position = players_NPAI[player_index]
+            pos = player.position
+
+            # need to update last_move from last_pos to pos:
+
+            if pos[1] == last_pos[1] + 1:
+                last_move = MOVE_DOWN
+            elif pos[0] == last_pos[0] - 1:
+                last_move = MOVE_LEFT
+            elif pos[1] == last_pos[1] - 1:
+                last_move = MOVE_UP
+            elif pos[0] == last_pos[0] + 1:
+                last_move = MOVE_RIGHT
+            else: # means the player did not move
+                last_move = player.last_move
+
+            player.last_move = last_move
+
 
     def add_new_keys(self):
         pass
