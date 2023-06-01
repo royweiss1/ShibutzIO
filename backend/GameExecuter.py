@@ -40,10 +40,10 @@ class Runner:
 
 
 # Usage
-def run():
+def run(board):
     runnersList = []
     for i in range(4):
-        runner = Runner()
+        runner = Runner(board, i)
         runner.load_player_bot("players_files/player" + str(i) + ".py")
         runnersList.append(runner)
     playersActions = []  # index to action

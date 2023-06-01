@@ -8,7 +8,7 @@ KEY = 4
 NATURAL = 0
 
 class ChangeTurn:
-    def __init__(self, board, turnIndex, playersNewPosition, score, newCapturedArea=None, newHalfCapturedArea=None, newKilled=None):
+    def __init__(self, board, turnIndex, playersNewPosition, score, newCapturedArea=None, newHalfCapturedArea=None, newKilled=None, HalfToNatural=None):
         self.turnIndex = turnIndex
         board = board
         self.Score = score # playerIndex to newScore
@@ -26,6 +26,10 @@ class ChangeTurn:
             newKilled = []
         else:
             newKilled = newKilled #list of playerIndex
+        if HalfToNatural is None:
+            HalfToNatural = []
+        else:
+            HalfToNatural = HalfToNatural #list of coordinats of new fully captured
 
         self.SquareChanges = []
         if newCapturedArea is not None:
@@ -47,15 +51,11 @@ class ChangeTurn:
         for player in range(len(playersNewPosition)):
             key = board.isKey(playersNewPosition[player])  # probably False MIND
             self.SquareChanges.append(SquareChange(playersNewPosition[player][0], playersNewPosition[player][1], player, HEAD))
-        #for playerIndex in newKilled:
-        #    for square in board.getPlayerArea(playerIndex):
-        #        SquareChanges.append(SquareChange(square[0], square[1], NATURAL, NATURAL))
-
-        #for player in score:
-        #    self.Score["Score"].append({"Player": player, "Score": Score[player]})
-
-    def toJSON(self):
-        return json.dumps(self, default=lambda o: o.__dict__, sort_keys=True, indent=4)
+        for playerIndex in newKilled:
+            for square in board.getPlayerArea(playerIndex):
+                self.SquareChanges.append(SquareChange(square[0], square[1], NATURAL, NATURAL))
+        for square in HalfToNatural:
+            self.SquareChanges.append(SquareChange(square[0], square[1], NATURAL, NATURAL))
 
 
 

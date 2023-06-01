@@ -16,8 +16,7 @@ class Board:
     def whoOwns(self, position):
         pass
     def isKey(self, position):
-        if position is [1,1]:
-            return True
+        pass
 
     def getPlayerArea(self, playerIndex):
         pass
