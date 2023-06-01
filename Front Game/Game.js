@@ -46,6 +46,22 @@ const jsonExample = {
 
 }
 
+var botList = document.getElementById("botList");
+var botItems = botList.getElementsByTagName("li");
+var indexMap = new Map();
+var currentIndex = 1;
+
+for (var i = 0; i < botItems.length; i++) {
+  botItems[i].addEventListener("click", function() {
+    if (!indexMap.has(this) && currentIndex <= 3) {
+      var index = currentIndex;
+      indexMap.set(this, index);
+      this.textContent = this.textContent + " " + index;
+      currentIndex++;
+    }
+  });
+}
+
 var blockSize = 30;
 var rows = 30;
 var cols = 30;

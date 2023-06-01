@@ -7,12 +7,39 @@
       <link rel="stylesheet" href="style.css">
     </head>
     <body>
-      <h1>Player1 Vs Player2</h1>
+      <h1>Player Vs Bot1,Bot2,Bot3</h1>
       <canvas id="canvas"> </canvas>
       <div class="slider-container">
         <input type="range" min="0" max="1500" value="0" class="slider" id="mySlider">
         <p id="sliderValue">Speed: 1500</p>
       </div>
+      <style>
+        ul {
+          list-style-type: none;
+          padding: 0;
+          position: absolute;
+          top: 0;
+          left: 0
+        }
+        
+        li {
+          position: relative;
+          left: 30px;
+          top: 30px;
+          cursor: pointer;
+          padding: 10px;
+          border: 1px solid #ccc;
+          margin-bottom: 5px;
+          width: 100px;
+        }
+      </style>
+      <ul id="botList">
+        <li>Bot1</li>
+        <li>Bot2</li>
+        <li>Bot3</li>
+        <li>Bot4</li>
+        <li>Bot5</li>
+      </ul> 
       
     </body>
     <script src= Game.js></script>
