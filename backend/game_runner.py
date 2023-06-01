@@ -1,4 +1,6 @@
 
+
+
 MOVE_DOWN = 1
 MOVE_LEFT = 2
 MOVE_UP = 3
@@ -7,17 +9,26 @@ MOVE_RIGHT = 4
 import random
 import closing_area_algorithms
 
+from backend.ChangeTurn import ChangeTurn
+
 
 class GameRunner:
     def __init__(self):
-        # todo: initialize history
-        self.history = None
+        self.turn_change = None  # the changes in the current turn, chaing fields while update
+        self.turn_index = 1
 
     # players_moves: only for living players
     # todo: return board
     def update(self, board, players_moves):
+        players=board.players
+        oldCap={}
+        for i in range(len(players)):
+            oldCap[i]=players[i].area
         if len(players_moves) != len(board.players):
             raise Exception  # this should not happen
+
+        self.turn_change = ChangeTurn(board, self.turn_index, None, None)  # changing during the rest of the function
+        self.turn_change += 1
 
         self.check_legal_moves(board, players_moves) # converting illegal moves to last moves
         
@@ -33,10 +44,28 @@ class GameRunner:
 
         self.handle_kills(board, players_NPIA)
 
-        # change positions (and remaning fields)
+        self.update_positions(board, players_NPIA)
 
-        # add new keys
-        
+        self.add_new_keys(board)
+        score={}
+        newCaptured={}
+        newHalf={}
+        newKilled=[]
+        halfToNatural={}
+        for i in range(len(players)):
+            score[i]=players[i].keys
+            newCaptured[i]=players[i].area
+            newHalf[i]=players[i].halfCaptured
+            if not players[i].is_alive:
+                newKilled.append(i)
+            diff=list(oldCap[i] - newCaptured[i])
+            if len(diff)>0:
+                halfToNatural[i]=diff
+        return ChangeTurn(board,self.turn_change,[player.position for player in board.players],score,newCaptured,newHalf,newKilled,)
+
+
+
+
 
     # converts non legal moves to legal moves
     def check_legal_moves(self, board, players_moves):
@@ -87,12 +116,15 @@ class GameRunner:
                 player.keys = player.keys + 1
                 player.keysPositions.remove(new_pos)
 
+        self.turn_change.Score = {player_index: board.players[player_index].keys for player_index in range(len(players_NPIA))}
+
     # todo: nice to have, two players may close the same area in the same time, currently this is
     # todo: arbitrary, but maybe later implement that the one that closes the bigger area takes it
 
     def collect_players_area(self, board, players_NPIA):
         for player_index in range(len(players_NPIA)):
             self.collect_player_area(board, player_index, players_NPIA)
+
 
     def collect_player_area(self, board, player_index, players_NPAI):
         player = board.players[player_index]
@@ -229,8 +261,24 @@ class GameRunner:
 
 
     def handle_kill_tuple(self, board, did_kill_index, got_killed_index):
-        pass
-        # todo: change num_players in board
+
+        did_kill = board.players[did_kill_index]
+        got_killed = board.players[got_killed_index]
+
+        if got_killed.is_alive:  # todo: improve by dealing with these in getting kills tuples
+            got_killed.is_alive = False
+
+            did_kill.area = did_kill.area + got_killed.area
+            did_kill.area = list(set(did_kill.area))  # to make sure
+
+            did_kill.halfCaptured = []
+
+            did_kill.keys = did_kill.keys - got_killed.keys
+
+            # now changing board:
+
+            board.players.remove(got_killed)
+            board.numOfPlayers = len(board.players)
 
 
     def handle_kills(self, board, players_NPIA):
@@ -238,11 +286,34 @@ class GameRunner:
             self.handle_kill_tuple(kill)
 
 
-    def update_positions(self):
-        pass
-        # todo: update last_position, position
+    def update_positions(self, board, players_NPAI):
+        for player_index in range(len(players_NPAI)):
+            player = board.players[player_index]
 
-    def add_new_keys(board):
+            last_pos = player.position
+
+            player.position = players_NPAI[player_index]
+            pos = player.position
+
+            # todo: update the players positions in self.turn_change
+
+            # need to update last_move from last_pos to pos:
+
+            if pos[1] == last_pos[1] + 1:
+                last_move = MOVE_DOWN
+            elif pos[0] == last_pos[0] - 1:
+                last_move = MOVE_LEFT
+            elif pos[1] == last_pos[1] - 1:
+                last_move = MOVE_UP
+            elif pos[0] == last_pos[0] + 1:
+                last_move = MOVE_RIGHT
+            else: # means the player did not move
+                last_move = player.last_move
+
+            player.last_move = last_move
+
+
+    def add_new_keys(self, board):
         r=random.randint(1,board.Size*board.Size)
         for player in board.players:
             if len(player.area)>=r:
