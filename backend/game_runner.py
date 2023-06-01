@@ -141,7 +141,7 @@ class GameRunner:
     def handle_cuts(self, players_NPAI):
         for player_index in range(len(players_NPAI)):
             player = board.players[player_index]
-            if self.is_player_cut(player, players_NPAI)
+            if self.is_player_cut(player, players_NPAI):
                 self.cut_player(board, player_index)
 
 

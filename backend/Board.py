@@ -1,4 +1,4 @@
-import Player
+from backend import Player
 
 DEFAULT_LOCATION = {2: [], 4: []}
 
