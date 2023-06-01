@@ -1,3 +1,5 @@
+import json
+
 from flask import Flask, render_template, request
 
 import backend.mainGame
@@ -44,7 +46,12 @@ def upload_files():
 
 @app.route('/simulate_json')
 def simulateJson():
-    return 2
+    # some JSON:
+    x = '{ "name":"John", "age":30, "city":"New York"}'
+
+    # parse x:
+    y = json.loads(x)
+    return y
 
 
 if __name__ == '__main__':
