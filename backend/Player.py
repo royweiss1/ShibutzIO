@@ -1,7 +1,8 @@
 import game_runner
 
 class Player:
-    def __init__(self, position):
+    def __init__(self, position, playerIndex):
+        self.playerIndex = playerIndex
         self.position = position #pair x,y
         self.area = [] #list of coordinats of area
         self.halfCaptured = [] # by order of capture, always not None
@@ -10,5 +11,8 @@ class Player:
         self.is_alive = True
         self.last_move = game_runner.MOVE_UP
         self.gate_pos = position
+
+
+
 
 
