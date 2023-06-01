@@ -20,9 +20,16 @@ slider.addEventListener("input", function() {
 
 var input;
 
+async function getText() {
+    const response = await fetch('http://127.0.0.1:5500/Front%20Game/data.txt').then(response => response.text()).then(data => {
+        data = data.replace(/'/g, '');
+        input = data;
+    });
+}
+
+
 async function getJson() {
-    const response = await fetch('http://127.0.0.1:5500/Front%20Game/try.json').then(response => response.json()).then(data => {
-        console.log(data);
+    const response = await fetch('http://127.0.0.1:5500/Front%20Game/data.txt').then(response => response.json()).then(data => {
         input = data;
     });
 }
@@ -95,7 +102,7 @@ var context;
 
 
 window.onload = async function() {
-    await getJson();
+    await getText();
     board = document.getElementById("canvas");
     context = board.getContext("2d");
     board.width = blockSize * rows;
@@ -110,8 +117,8 @@ window.onload = async function() {
 
 
 async function update() {
-
-
+    input = JSON.parse(input);
+    console.log(input);
     for(var turn in input){
         for (var i in input[turn].Score){
             // change text of "blueScore" in html to the score of player 1
@@ -126,55 +133,57 @@ async function update() {
             var playerIndex = input[turn].SquareChanges[change].playerIndex;
             var status = input[turn].SquareChanges[change].Status;
             console.log(x,y,playerIndex,status);
-            switch((playerIndex,status)){
-                case(0,0):
+            var arr = [playerIndex,status];
+            switch(arr.join(",")){
+                case("5,5"):
                     src = "Art/DefaultTile.png";
-                case (1,1):
+                    break;
+                case ("0,1"):
                     src = "Art/BlueHead.png";
                     break;
-                case (1,2):
+                case ("0,2"):
                     src = "Art/BlueTail.png";
                     break;
-                case (1,3):
+                case ("0,3"):
                     src = "Art/BlueTile.png";
                     break;
-                case (1,4):
+                case ("0,4"):
                     src = "Art/BlueKey.png";
                     break;
-                case (2,1): // same as above but red
+                case ("1,1"): // same as above but red
                     src = "Art/RedHead.png";    
                     break;
-                case (2,2):
+                case ("1,2"):
                     src = "Art/RedTail.png";
                     break;
-                case (2,3):
+                case ("1,3"):
                     src = "Art/RedTile.png";
                     break;
-                case (2,4):
+                case ("1,4"):
                     src = "Art/RedKey.png";
                     break;
-                case (3,1): // same as above but black
+                case ("2,1"): // same as above but black
                     src = "Art/BlackHead.png";
                     break;
-                case (3,2):
+                case ("2,2"):
                     src = "Art/BlackTail.png";
                     break;
-                case (3,3):
+                case ("2,3"):
                     src = "Art/BlackTile.png";
                     break;
-                case (3,4):
+                case ("2,4"):
                     src = "Art/BlackKey.png";
                     break;
-                case (4,1): // same as above but white
+                case ("3,1"): // same as above but white
                     src = "Art/WhiteHead.png";
                     break;
-                case (4,2):
+                case ("3,2"):
                     src = "Art/WhiteTail.png";
                     break;
-                case (4,3):
+                case ("3,3"):
                     src = "Art/WhiteTile.png";
                     break;
-                case (4,4):
+                case ("3,4"):
                     src = "Art/WhiteKey.png";
                     break;
             }
@@ -286,8 +295,8 @@ function drawTile(src, x, y){
     // show image on canvas
     var img = new Image();
     img.src = src;
-    img.onload = function() {
-        context.drawImage(img, x, y, blockSize, blockSize);
+    img.onload = async function() {
+        await context.drawImage(img, x, y, blockSize, blockSize);
     }
 }
 
