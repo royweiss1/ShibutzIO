@@ -1,5 +1,6 @@
 from flask import Flask, render_template,request
 
+import backend.mainGame
 
 app = Flask(__name__)
 
@@ -33,11 +34,16 @@ def upload_files():
                     text_file.write(text)
                 # Add text file to the list of uploaded files
                 uploaded_files.append(text_filename)
+                backend.mainGame.main(uploaded_files)
         return "Files uploaded successfully!"
 
         #do stuff with the files
 
     return render_template('upload.html')
 
+
+@app.route('/simulate_json')
+def simulateJson():
+    return 2;
 if __name__ == '__main__':
     app.run()

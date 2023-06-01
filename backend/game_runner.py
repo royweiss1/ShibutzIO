@@ -5,7 +5,7 @@ MOVE_UP = 3
 MOVE_RIGHT = 4
 
 import random
-import closing_area_algorithms
+import backend.closing_area_algorithms
 
 
 class GameRunner:

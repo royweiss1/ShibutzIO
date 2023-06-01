@@ -1,4 +1,4 @@
-import game_runner
+from backend import game_runner
 
 class Player:
     def __init__(self, position, playerIndex):
