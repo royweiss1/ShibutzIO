@@ -8,7 +8,7 @@ KEY = 4
 NATURAL = 0
 
 class ChangeTurn:
-    def __init__(self, board, turnIndex, playersNewPosition, score, newCapturedArea=None, newHalfCapturedArea=None, newKilled=None):
+    def __init__(self, board, turnIndex, playersNewPosition, score, newCapturedArea=None, newHalfCapturedArea=None, newKilled=None, HalfToNatural=None):
         self.turnIndex = turnIndex
         board = board
         self.Score = score # playerIndex to newScore

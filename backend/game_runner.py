@@ -20,6 +20,10 @@ class GameRunner:
     # players_moves: only for living players
     # todo: return board
     def update(self, board, players_moves):
+        players=board.players
+        oldCap={}
+        for i in range(len(players)):
+            oldCap[i]=players[i].area
         if len(players_moves) != len(board.players):
             raise Exception  # this should not happen
 
@@ -43,6 +47,21 @@ class GameRunner:
         self.update_positions(board, players_NPIA)
 
         self.add_new_keys(board)
+        score={}
+        newCaptured={}
+        newHalf={}
+        newKilled=[]
+        halfToNatural={}
+        for i in range(len(players)):
+            score[i]=players[i].keys
+            newCaptured[i]=players[i].area
+            newHalf[i]=players[i].halfCaptured
+            if not players[i].is_alive:
+                newKilled.append(i)
+            diff=list(oldCap[i] - newCaptured[i])
+            if len(diff)>0:
+                halfToNatural[i]=diff
+        return ChangeTurn(board,self.turn_change,[player.position for player in board.players],score,newCaptured,newHalf,newKilled,)
 
 
 
@@ -154,7 +173,7 @@ class GameRunner:
     def handle_cuts(self, players_NPAI):
         for player_index in range(len(players_NPAI)):
             player = board.players[player_index]
-            if self.is_player_cut(player, players_NPAI)
+            if self.is_player_cut(player, players_NPAI):
                 self.cut_player(board, player_index)
 
 
