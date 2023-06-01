@@ -8,7 +8,7 @@ slider.addEventListener("input", function() {
     document.getElementById("sliderValue").textContent = "Speed: " + value;
   });
 
-slider.value = 1500;
+slider.value = 0;
 const jsonExample = {
     "1": {
         "(1,0)": "(1,1)",
@@ -51,11 +51,16 @@ var botItems = botList.getElementsByTagName("li");
 var indexMap = new Map();
 var currentIndex = 1;
 
+// get the h1 header and change its text
+var header = document.getElementById("h1");
+header.textContent = "Player1 Vs";
+
 for (var i = 0; i < botItems.length; i++) {
   botItems[i].addEventListener("click", function() {
     if (!indexMap.has(this) && currentIndex <= 3) {
       var index = currentIndex;
       indexMap.set(this, index);
+      header.textContent = header.textContent + " " + this.textContent;
       this.textContent = this.textContent + " " + index;
       currentIndex++;
     }
@@ -69,13 +74,17 @@ var board;
 var context;
 
 
-window.onload = function() {
+window.onload = async function() {
     board = document.getElementById("canvas");
     context = board.getContext("2d");
     board.width = blockSize * rows;
     board.height = blockSize * cols;
-
+    
     InitBoard();
+    // wait for currentIndex to be 3
+    while (currentIndex <= 3) {
+        await sleep(100);
+    }
     // var img = new Image();
     // img.src = "Art/mario.png";
     // img.onload = function() {
@@ -148,7 +157,7 @@ async function update() {
             change[1] = parseInt(change[1]);
             drawTile(src, change[0]*blockSize, change[1]*blockSize);
         }
-        await sleep(slider.value);
+        await sleep(1500-slider.value);
     }
     
 }
