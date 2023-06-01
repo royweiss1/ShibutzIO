@@ -10,3 +10,5 @@ class Board:
         self.players = []  # to init
         for i in DEFAULT_LOCATION[numPlayers]:
             self.players.append(Player.Player(i))
+
+
