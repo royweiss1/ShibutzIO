@@ -5,6 +5,7 @@ MOVE_UP = 3
 MOVE_RIGHT = 4
 
 import random
+import closing_area_algorithms
 
 
 class GameRunner:
@@ -26,14 +27,14 @@ class GameRunner:
         
         self.collect_players_existing_keys(board, players_NPIA)
 
-        # hanlle_area collecting and half acptured
+        self.collect_players_area(board, players_NPIA)  # also updates some half acptured
 
         self.handle_cuts(players_NPIA)
 
-        # handle kills
+        self.handle_kills(board, players_NPIA)
 
         # change positions (and remaning fields)
-        
+
         # add new keys
         
 
@@ -91,14 +92,50 @@ class GameRunner:
 
     def collect_players_area(self, board, players_NPIA):
         for player_index in range(len(players_NPIA)):
+            self.collect_player_area(board, player_index, players_NPIA)
+
+    def collect_player_area(self, board, player_index, players_NPAI):
+        player = board.players[player_index]
+        if closing_area_algorithms.has_closed(player, board.SIZE, players_NPAI[player_index]):
+            new_area_dictionary = closing_area_algorithms.get_union_area(board.SIZE, player.halfCaptured, player.area)
+            new_area = [pos for pos in new_area_dictionary.keys() if new_area_dictionary[pos] == 0]
+            new_area = [pos for pos in new_area if (0 <= pos[0] < board.SIZE and 0 <= pos[1] < board.SIZE)]
+            new_area = new_area + player.area # it may be that not all player.area is in new_area
+            new_area = list(set(new_area))
+
+            added_area = [pos for pos in new_area if pos not in player.area]
+
+            player.area = new_area
+
+            # removing added area from others:
+            for other_player in board.players:
+                if other_player != player:
+                    for pos in added_area:
+                        other_player.area.remove(pos)
+                        if pos in other_player.keysPositions:
+                            other_player.keysPositions.remove(pos)
+                            player.keysPositions.append(pos)
+
+            player.halfCaptured = []
+
+        elif players_NPAI[player_index] not in player.area:
+            # need to add to half captured
+
+            # if now started bondry, add the last pos in the area
+            if player.position in player.area:
+                player.halfCaptured.append(player.position)
+
+            player.halfCaptured.append(players_NPAI[player_index])
+
+        else:
+            # player in its area, and not after closing area
+            # need this in case entered differnet connected area after was out of its area
+            player.halfCaptured = []
 
 
-    def collect_player_area(self, board, player_index):
-        pass
-
-    # todo: when collecting area, also update half captured
-    # todo: also add NPAI to half captured
-    # todo: also check if moved to different area, and make the half captured empty if yes
+    # check that did this: when collecting area, also update half captured
+    # check that did this: also add NPAI to half captured
+    # check that did this: also check if moved to different area, and make the half captured empty if yes
 
 
     def handle_cuts(self, players_NPAI):
@@ -193,6 +230,7 @@ class GameRunner:
 
     def handle_kill_tuple(self, board, did_kill_index, got_killed_index):
         pass
+        # todo: change num_players in board
 
 
     def handle_kills(self, board, players_NPIA):
@@ -200,14 +238,17 @@ class GameRunner:
             self.handle_kill_tuple(kill)
 
 
-    def is_legal_move(self, player_move):
-        return player_move in [MOVE_DOWN, MOVE_LEFT, MOVE_UP, MOVE_RIGHT]
-
-
+    def update_positions(self):
+        pass
+        # todo: update last_position, position
 
     def add_new_keys(self):
         pass
         # todo: implement
+
+    def is_legal_move(self, player_move):
+        return player_move in [MOVE_DOWN, MOVE_LEFT, MOVE_UP, MOVE_RIGHT]
+
 
 # if move is
 
