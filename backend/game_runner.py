@@ -242,9 +242,22 @@ class GameRunner:
         pass
         # todo: update last_position, position
 
-    def add_new_keys(self):
-        pass
-        # todo: implement
+    def add_new_keys(board):
+        r=random.randint(1,board.Size*board.Size)
+        for player in board.players:
+            if len(player.area)>=r:
+                relevantBlocks=[]
+                for block in player.area:
+                    cond=0
+                    for p in board.players:
+                        if block == p.position:
+                            cond=1
+                    if not (block in player.keysPositions or player.gate_pos==block or cond==1):
+                        relevantBlocks.append(block)
+                if len(relevantBlocks)>0:
+                    ra=random.randint(0,len(relevantBlocks)-1)
+                    player.keysPositions.append(relevantBlocks[ra])
+
 
     def is_legal_move(self, player_move):
         return player_move in [MOVE_DOWN, MOVE_LEFT, MOVE_UP, MOVE_RIGHT]
