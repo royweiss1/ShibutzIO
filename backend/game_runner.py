@@ -1,5 +1,6 @@
 
 
+from backend import closing_area_algorithms
 
 MOVE_DOWN = 1
 MOVE_LEFT = 2
@@ -40,7 +41,7 @@ class GameRunner:
 
         self.collect_players_area(board, players_NPIA)  # also updates some half acptured
 
-        self.handle_cuts(players_NPIA)
+        self.handle_cuts(players_NPIA, board)
 
         self.handle_kills(board, players_NPIA)
 
@@ -170,7 +171,7 @@ class GameRunner:
     # check that did this: also check if moved to different area, and make the half captured empty if yes
 
 
-    def handle_cuts(self, players_NPAI):
+    def handle_cuts(self, players_NPAI, board):
         for player_index in range(len(players_NPAI)):
             player = board.players[player_index]
             if self.is_player_cut(player, players_NPAI):

@@ -1,4 +1,4 @@
-from flask import Flask, render_template,request
+from flask import Flask, render_template, request
 
 import backend.mainGame
 
@@ -26,15 +26,15 @@ def upload_files():
         files = request.files.getlist('file')
         for file in files:
             if file:
-                uploaded_files.append(file)
+                #uploaded_files.append(file)
                 # Convert Python file to text file
                 text = file.read().decode("utf-8")
-                text_filename = file.filename + ".txt"
-                with open(text_filename, 'w') as text_file:
-                    text_file.write(text)
+               # text_filename = file.filename + ".txt"
+              #  with open(text_filename, 'w') as text_file:
+              #      text_file.write(text)
                 # Add text file to the list of uploaded files
-                uploaded_files.append(text_filename)
-                backend.mainGame.main(uploaded_files)
+                uploaded_files.append(text)
+        backend.mainGame.main(uploaded_files)
         return "Files uploaded successfully!"
 
         #do stuff with the files
@@ -44,6 +44,8 @@ def upload_files():
 
 @app.route('/simulate_json')
 def simulateJson():
-    return 2;
+    return 2
+
+
 if __name__ == '__main__':
     app.run()

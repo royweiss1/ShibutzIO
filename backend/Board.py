@@ -1,6 +1,6 @@
 from backend import Player
 
-DEFAULT_LOCATION = {2: [], 4: []}
+DEFAULT_LOCATION = {2: [], 4: [[0,0], [0,30] , [30,0], [30,30]]}
 
 
 class Board:
