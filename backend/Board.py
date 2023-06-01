@@ -1,5 +1,4 @@
 import Player
-import importlib
 
 DEFAULT_LOCATION = {2: [], 4: []}
 
