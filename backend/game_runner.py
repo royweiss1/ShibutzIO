@@ -1,4 +1,6 @@
 
+
+
 MOVE_DOWN = 1
 MOVE_LEFT = 2
 MOVE_UP = 3
@@ -7,17 +9,22 @@ MOVE_RIGHT = 4
 import random
 import closing_area_algorithms
 
+from backend.ChangeTurn import ChangeTurn
+
 
 class GameRunner:
     def __init__(self):
-        # todo: initialize history
-        self.history = None
+        self.turn_change = None  # the changes in the current turn, chaing fields while update
+        self.turn_index = 1
 
     # players_moves: only for living players
     # todo: return board
     def update(self, board, players_moves):
         if len(players_moves) != len(board.players):
             raise Exception  # this should not happen
+
+        self.turn_change = ChangeTurn(board, self.turn_index, None, None)  # changing during the rest of the function
+        self.turn_change += 1
 
         self.check_legal_moves(board, players_moves) # converting illegal moves to last moves
         
@@ -89,6 +96,8 @@ class GameRunner:
             if new_pos in player.keysPositions:
                 player.keys = player.keys + 1
                 player.keysPositions.remove(new_pos)
+
+        self.turn_change.Score = {player_index: board.players[player_index].keys for player_index in range(len(players_NPIA))}
 
     # todo: nice to have, two players may close the same area in the same time, currently this is
     # todo: arbitrary, but maybe later implement that the one that closes the bigger area takes it
@@ -266,6 +275,8 @@ class GameRunner:
 
             player.position = players_NPAI[player_index]
             pos = player.position
+
+            # todo: update the players positions in self.turn_change
 
             # need to update last_move from last_pos to pos:
 
