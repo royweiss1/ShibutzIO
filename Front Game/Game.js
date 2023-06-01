@@ -21,7 +21,7 @@ slider.addEventListener("input", function() {
 var input;
 
 async function getJson() {
-    const response = await fetch('http://127.0.0.1:5500/Front%20Game/try.json').then(response => response.json()).then(data => {
+    const response = await fetch('http://127.0.0.1:5500/simulate_json').then(response => response.json()).then(data => {
         console.log(data);
         input = data;
     });
