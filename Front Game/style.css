@@ -1,0 +1,15 @@
+body {
+    font-family: 'Courier New', Courier, monospace;
+    text-align: center;
+    line-height: 5px;
+}
+/* style the slider */
+.slider {
+    width: 30%;
+    height: 25px;
+    background: #d3d3d3;
+    outline: none;
+    opacity: 0.7;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+}
