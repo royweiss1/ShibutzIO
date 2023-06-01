@@ -9,14 +9,24 @@ slider.addEventListener("input", function() {
   });
 
 
-var input = [{
-    "turnIndex": 1,
-    "Score": {"0": 1, "1": 2, "2": 3, "3": 4},
-    "SquareChanges": [{"xPosition": 1, "yPosition": 1, "playerIndex": 0, "Status": 3}, {"xPosition": 2, "yPosition": 2, "playerIndex": 0, "Status": 3}, {"xPosition": 3, "yPosition": 3, "playerIndex": 1, "Status": 3}, {"xPosition": 4, "yPosition": 4, "playerIndex": 1, "Status": 3}, {"xPosition": 5, "yPosition": 5, "playerIndex": 0, "Status": 2}, {"xPosition": 6, "yPosition": 6, "playerIndex": 0, "Status": 2}, {"xPosition": 7, "yPosition": 7, "playerIndex": 1, "Status": 2}, {"xPosition": 8, "yPosition": 8, "playerIndex": 1, "Status": 2}, {"xPosition": 1, "yPosition": 1, "playerIndex": 0, "Status": 1}, {"xPosition": 2, "yPosition": 2, "playerIndex": 1, "Status": 1}, {"xPosition": 3, "yPosition": 3, "playerIndex": 2, "Status": 1}, {"xPosition": 4, "yPosition": 4, "playerIndex": 3, "Status": 1}]
-},
-    {"turnIndex": 2, "Score": {"0": 1, "1": 2, "2": 3, "3": 4}, "SquareChanges": [{"xPosition": 1, "yPosition": 1, "playerIndex": 0, "Status": 3}, {"xPosition": 2, "yPosition": 2, "playerIndex": 0, "Status": 3}, {"xPosition": 3, "yPosition": 3, "playerIndex": 1, "Status": 3}, {"xPosition": 4, "yPosition": 4, "playerIndex": 1, "Status": 3}, {"xPosition": 5, "yPosition": 5, "playerIndex": 0, "Status": 2}, {"xPosition": 6, "yPosition": 6, "playerIndex": 0, "Status": 2}, {"xPosition": 7, "yPosition": 7, "playerIndex": 1, "Status": 2}, {"xPosition": 8, "yPosition": 8, "playerIndex": 1, "Status": 2}, {"xPosition": 1, "yPosition": 1, "playerIndex": 0, "Status": 1}, {"xPosition": 2, "yPosition": 2, "playerIndex": 1, "Status": 1}, {"xPosition": 3, "yPosition": 3, "playerIndex": 2, "Status": 1}, {"xPosition": 4, "yPosition": 4, "playerIndex": 3, "Status": 1}]
-    }
-]
+// var input = [{
+//     "turnIndex": 1,
+//     "Score": {"0": 1, "1": 2, "2": 3, "3": 4},
+//     "SquareChanges": [{"xPosition": 1, "yPosition": 1, "playerIndex": 0, "Status": 3}, {"xPosition": 2, "yPosition": 2, "playerIndex": 0, "Status": 3}, {"xPosition": 3, "yPosition": 3, "playerIndex": 1, "Status": 3}, {"xPosition": 4, "yPosition": 4, "playerIndex": 1, "Status": 3}, {"xPosition": 5, "yPosition": 5, "playerIndex": 0, "Status": 2}, {"xPosition": 6, "yPosition": 6, "playerIndex": 0, "Status": 2}, {"xPosition": 7, "yPosition": 7, "playerIndex": 1, "Status": 2}, {"xPosition": 8, "yPosition": 8, "playerIndex": 1, "Status": 2}, {"xPosition": 1, "yPosition": 1, "playerIndex": 0, "Status": 1}, {"xPosition": 2, "yPosition": 2, "playerIndex": 1, "Status": 1}, {"xPosition": 3, "yPosition": 3, "playerIndex": 2, "Status": 1}, {"xPosition": 4, "yPosition": 4, "playerIndex": 3, "Status": 1}]
+// },
+//     {"turnIndex": 2, "Score": {"0": 1, "1": 2, "2": 3, "3": 4}, "SquareChanges": [{"xPosition": 1, "yPosition": 1, "playerIndex": 0, "Status": 3}, {"xPosition": 2, "yPosition": 2, "playerIndex": 0, "Status": 3}, {"xPosition": 3, "yPosition": 3, "playerIndex": 1, "Status": 3}, {"xPosition": 4, "yPosition": 4, "playerIndex": 1, "Status": 3}, {"xPosition": 5, "yPosition": 5, "playerIndex": 0, "Status": 2}, {"xPosition": 6, "yPosition": 6, "playerIndex": 0, "Status": 2}, {"xPosition": 7, "yPosition": 7, "playerIndex": 1, "Status": 2}, {"xPosition": 8, "yPosition": 8, "playerIndex": 1, "Status": 2}, {"xPosition": 1, "yPosition": 1, "playerIndex": 0, "Status": 1}, {"xPosition": 2, "yPosition": 2, "playerIndex": 1, "Status": 1}, {"xPosition": 3, "yPosition": 3, "playerIndex": 2, "Status": 1}, {"xPosition": 4, "yPosition": 4, "playerIndex": 3, "Status": 1}]
+//     }
+// ]
+
+var input;
+
+async function getJson() {
+    const response = await fetch('http://127.0.0.1:5500/Front%20Game/try.json').then(response => response.json()).then(data => {
+        console.log(data);
+        input = data;
+    });
+}
+
 
 slider.value = 0;
 const jsonExample = {
@@ -85,6 +95,7 @@ var context;
 
 
 window.onload = async function() {
+    await getJson();
     board = document.getElementById("canvas");
     context = board.getContext("2d");
     board.width = blockSize * rows;
