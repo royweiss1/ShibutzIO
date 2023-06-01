@@ -2,14 +2,17 @@ body {
     font-family: 'Courier New', Courier, monospace;
     text-align: center;
     line-height: 5px;
+    background: #c19639    ;
 }
 /* style the slider */
 .slider {
     width: 30%;
     height: 25px;
-    background: #d3d3d3;
+    background: #838282;
     outline: none;
     opacity: 0.7;
     -webkit-transition: .2s;
+    accent-color: #7e6329;
     transition: opacity .2s;
 }
+/* make the list appear at the top left, space the entries on the vertical */
