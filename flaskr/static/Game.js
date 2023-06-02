@@ -21,7 +21,7 @@ slider.addEventListener("input", function() {
 var input;
 
 async function getText() {
-    const response = await fetch('http://127.0.0.1:5500/Front%20Game/data.txt').then(response => response.text()).then(data => {
+    const response = await fetch('http://127.0.0.1:5000/simulate_json').then(response => response.text()).then(data => {
         data = data.replace(/'/g, '');
         input = data;
     });
@@ -120,7 +120,11 @@ async function update() {
     input = JSON.parse(input);
     console.log(input);
     for(var turn in input){
+        input[turn] = JSON.parse(input[turn]);
+        console.log(input[turn].Score);
+
         for (var i in input[turn].Score){
+
             // change text of "blueScore" in html to the score of player 1
             document.getElementById("blueScore").textContent = "Blue: " +   input[turn].Score[0];
             document.getElementById("redScore").textContent = "Red: " +   input[turn].Score[1];
@@ -134,57 +138,58 @@ async function update() {
             var status = input[turn].SquareChanges[change].Status;
             console.log(x,y,playerIndex,status);
             var arr = [playerIndex,status];
+
             switch(arr.join(",")){
                 case("5,5"):
-                    src = "Art/DefaultTile.png";
+                    src = "static/Art/DefaultTile.png";
                     break;
                 case ("0,1"):
-                    src = "Art/BlueHead.png";
+                    src = "static/Art/BlueHead.png";
                     break;
                 case ("0,2"):
-                    src = "Art/BlueTail.png";
+                    src = "static/Art/BlueTail.png";
                     break;
                 case ("0,3"):
-                    src = "Art/BlueTile.png";
+                    src = "static/Art/BlueTile.png";
                     break;
                 case ("0,4"):
-                    src = "Art/BlueKey.png";
+                    src = "static/Art/BlueKey.png";
                     break;
                 case ("1,1"): // same as above but red
-                    src = "Art/RedHead.png";    
+                    src = "static/Art/RedHead.png";
                     break;
                 case ("1,2"):
-                    src = "Art/RedTail.png";
+                    src = "static/Art/RedTail.png";
                     break;
                 case ("1,3"):
-                    src = "Art/RedTile.png";
+                    src = "static/Art/RedTile.png";
                     break;
                 case ("1,4"):
-                    src = "Art/RedKey.png";
+                    src = "static/Art/RedKey.png";
                     break;
                 case ("2,1"): // same as above but black
-                    src = "Art/BlackHead.png";
+                    src = "static/Art/BlackHead.png";
                     break;
                 case ("2,2"):
-                    src = "Art/BlackTail.png";
+                    src = "static/Art/BlackTail.png";
                     break;
                 case ("2,3"):
-                    src = "Art/BlackTile.png";
+                    src = "static/Art/BlackTile.png";
                     break;
                 case ("2,4"):
-                    src = "Art/BlackKey.png";
+                    src = "static/Art/BlackKey.png";
                     break;
                 case ("3,1"): // same as above but white
-                    src = "Art/WhiteHead.png";
+                    src = "static/Art/WhiteHead.png";
                     break;
                 case ("3,2"):
-                    src = "Art/WhiteTail.png";
+                    src = "static/Art/WhiteTail.png";
                     break;
                 case ("3,3"):
-                    src = "Art/WhiteTile.png";
+                    src = "static/Art/WhiteTile.png";
                     break;
                 case ("3,4"):
-                    src = "Art/WhiteKey.png";
+                    src = "static/Art/WhiteKey.png";
                     break;
             }
             console.log(src);
@@ -262,27 +267,27 @@ async function update() {
 
 
 function InitBoard() {
-    src = "Art/DefaultTile.png";
+    src = "static/Art/DefaultTile.png";
     for (var i = 0; i < rows; i++) {
         for (var j = 0; j < cols; j++){
             drawTile(src, i*blockSize, j*blockSize);
         }
     }
-    src = "Art/BlueTile.png";
+    src = "static/Art/BlueTile.png";
     drawTile(src, 0, 0);
-    src = "Art/BlueGate.png";
+    src = "static/Art/BlueGate.png";
     drawTile(src, 0, 0);
-    src = "Art/RedTile.png";
+    src = "static/Art/RedTile.png";
     drawTile(src, blockSize*(rows-1), blockSize*(cols-1));
-    src = "Art/RedGate.png";
+    src = "static/Art/RedGate.png";
     drawTile(src, blockSize*(rows-1), blockSize*(cols-1));
-    src = "Art/BlackTile.png";
+    src = "static/Art/BlackTile.png";
     drawTile(src, 0, blockSize*(cols-1));
-    src = "Art/BlackGate.png";
+    src = "static/Art/BlackGate.png";
     drawTile(src, 0, blockSize*(cols-1));
-    src = "Art/WhiteTile.png";
+    src = "static/Art/WhiteTile.png";
     drawTile(src, blockSize*(rows-1), 0);
-    src = "Art/WhiteGate.png";
+    src = "static/Art/WhiteGate.png";
     drawTile(src, blockSize*(rows-1), 0);
 }
 function concurTile(img, x, y){
