@@ -192,6 +192,7 @@ async function update() {
             change[0] = parseInt(change[0]);
             change[1] = parseInt(change[1]);
             drawTile(src, x*blockSize, y*blockSize);
+            drawGates();
          }
             await sleep(1500-slider.value);
         }
@@ -285,10 +286,15 @@ function InitBoard() {
     src = "Art/WhiteGate.png";
     drawTile(src, blockSize*(rows-1), 0);
 }
-function concurTile(img, x, y){
-    src = "Art/DefaultTile.png";
-    drawTile(src, x, y);
-    drawTile(img, x, y);
+function drawGates(){
+    src = "Art/BlueGate.png";
+    drawTile(src, 0, 0);
+    src = "Art/RedGate.png";
+    drawTile(src, blockSize*(rows-1), blockSize*(cols-1));
+    src = "Art/BlackGate.png";
+    drawTile(src, 0, blockSize*(cols-1));
+    src = "Art/WhiteGate.png";
+    drawTile(src, blockSize*(rows-1), 0);
 }
 
 function drawTile(src, x, y){
