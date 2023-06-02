@@ -151,40 +151,40 @@ async function update() {
                     src = "Art/BlueKey.png";
                     break;
                 case ("1,1"): // same as above but red
-                    src = "Art/RedHead.png";    
+                    src = "Art/BlackHead.png";    
                     break;
                 case ("1,2"):
-                    src = "Art/RedTail.png";
-                    break;
-                case ("1,3"):
-                    src = "Art/RedTile.png";
-                    break;
-                case ("1,4"):
-                    src = "Art/RedKey.png";
-                    break;
-                case ("2,1"): // same as above but black
-                    src = "Art/BlackHead.png";
-                    break;
-                case ("2,2"):
                     src = "Art/BlackTail.png";
                     break;
-                case ("2,3"):
+                case ("1,3"):
                     src = "Art/BlackTile.png";
                     break;
-                case ("2,4"):
+                case ("1,4"):
                     src = "Art/BlackKey.png";
                     break;
-                case ("3,1"): // same as above but white
+                case ("2,1"): // same as above but black
                     src = "Art/WhiteHead.png";
                     break;
-                case ("3,2"):
+                case ("2,2"):
                     src = "Art/WhiteTail.png";
                     break;
-                case ("3,3"):
+                case ("2,3"):
                     src = "Art/WhiteTile.png";
                     break;
-                case ("3,4"):
+                case ("2,4"):
                     src = "Art/WhiteKey.png";
+                    break;
+                case ("3,1"): // same as above but white
+                    src = "Art/RedHead.png";
+                    break;
+                case ("3,2"):
+                    src = "Art/RedTail.png";
+                    break;
+                case ("3,3"):
+                    src = "Art/RedTile.png";
+                    break;
+                case ("3,4"):
+                    src = "Art/RedKey.png";
                     break;
             }
             console.log(src);
